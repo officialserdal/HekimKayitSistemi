@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="doctorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="dbo_section">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="section" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="room_number" Type="Int32" />
+    <NavigationProperty Name="registations" Relationship="Self.FK_registation_dbo_section" FromRole="dbo_section" ToRole="registation" />
+  </EntityType>
+  <EntityType Name="dbo_unuity">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="unity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="registations" Relationship="Self.FK_registation_dbo_unuity" FromRole="dbo_unuity" ToRole="registation" />
+  </EntityType>
+  <EntityType Name="registation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="sectıon_id" Type="Int32" />
+    <Property Name="unıty_id" Type="Int32" />
+    <Property Name="telno" Type="Int32" />
+    <NavigationProperty Name="dbo_section" Relationship="Self.FK_registation_dbo_section" FromRole="registation" ToRole="dbo_section" />
+    <NavigationProperty Name="dbo_unuity" Relationship="Self.FK_registation_dbo_unuity" FromRole="registation" ToRole="dbo_unuity" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_registation_dbo_section">
+    <End Role="dbo_section" Type="Self.dbo_section" Multiplicity="0..1" />
+    <End Role="registation" Type="Self.registation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dbo_section">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="registation">
+        <PropertyRef Name="sectıon_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_registation_dbo_unuity">
+    <End Role="dbo_unuity" Type="Self.dbo_unuity" Multiplicity="0..1" />
+    <End Role="registation" Type="Self.registation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dbo_unuity">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="registation">
+        <PropertyRef Name="unıty_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="doctorEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="dbo_section" EntityType="Self.dbo_section" />
+    <EntitySet Name="dbo_unuity" EntityType="Self.dbo_unuity" />
+    <EntitySet Name="registations" EntityType="Self.registation" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK_registation_dbo_section" Association="Self.FK_registation_dbo_section">
+      <End Role="dbo_section" EntitySet="dbo_section" />
+      <End Role="registation" EntitySet="registations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_registation_dbo_unuity" Association="Self.FK_registation_dbo_unuity">
+      <End Role="dbo_unuity" EntitySet="dbo_unuity" />
+      <End Role="registation" EntitySet="registations" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

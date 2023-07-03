@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="doctorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="dbo_section">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="section" Type="varchar" MaxLength="50" />
+    <Property Name="room number" Type="int" />
+  </EntityType>
+  <EntityType Name="dbo_unuity">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="unity" Type="varchar" MaxLength="50" />
+    <Property Name="year" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="registation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="50" />
+    <Property Name="lastname" Type="varchar" MaxLength="50" />
+    <Property Name="sectıon_id" Type="int" />
+    <Property Name="unıty_id" Type="int" />
+    <Property Name="telno" Type="int" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="50" />
+    <Property Name="lastname" Type="varchar" MaxLength="50" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_registation_dbo_section">
+    <End Role="dbo_section" Type="Self.dbo_section" Multiplicity="0..1" />
+    <End Role="registation" Type="Self.registation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dbo_section">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="registation">
+        <PropertyRef Name="sectıon_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_registation_dbo_unuity">
+    <End Role="dbo_unuity" Type="Self.dbo_unuity" Multiplicity="0..1" />
+    <End Role="registation" Type="Self.registation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dbo_unuity">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="registation">
+        <PropertyRef Name="unıty_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="doctorModelStoreContainer">
+    <EntitySet Name="dbo_section" EntityType="Self.dbo_section" Schema="dbo" Table="dbo.section" store:Type="Tables" />
+    <EntitySet Name="dbo_unuity" EntityType="Self.dbo_unuity" Schema="dbo" Table="dbo.unuity" store:Type="Tables" />
+    <EntitySet Name="registation" EntityType="Self.registation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_registation_dbo_section" Association="Self.FK_registation_dbo_section">
+      <End Role="dbo_section" EntitySet="dbo_section" />
+      <End Role="registation" EntitySet="registation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_registation_dbo_unuity" Association="Self.FK_registation_dbo_unuity">
+      <End Role="dbo_unuity" EntitySet="dbo_unuity" />
+      <End Role="registation" EntitySet="registation" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
